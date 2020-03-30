@@ -1,4 +1,4 @@
-from CL_norating import CL2
+from CL_lessdata import CL2
 
 def make_rec (newmovieId=[2,3],newrating=[4,5]):
 
