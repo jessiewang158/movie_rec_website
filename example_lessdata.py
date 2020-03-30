@@ -6,5 +6,5 @@ def make_rec (newmovieId=[2,3],newrating=[4,5]):
     result = CL.recalculate_user(newmovieId, newrating)
     print("recmovie", result)
 
-    p_at_k, m_at_k = CL.evaloutput(10)
-    print(p_at_k, m_at_k)
+    #p_at_k, m_at_k = CL.evaloutput(10)
+    #print(p_at_k, m_at_k)
