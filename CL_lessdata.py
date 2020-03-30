@@ -32,14 +32,14 @@ class CL2(object):
         # transposing the item-user matrix to create a user-item matrix
         sparse_item_user = sparse_user_item.T.tocsr()
         # save the matrices for recalculating user on the fly
-        save_npz("sparse_user_item_NR.npz", sparse_user_item)
-        save_npz("sparse_item_user_NR.npz", sparse_item_user)
+        save_npz("sparse_user_item.npz", sparse_user_item)
+        save_npz("sparse_item_user.npz", sparse_item_user)
 
         return sparse_user_item, sparse_item_user
 
     def most_similar_items(self,item_id, n_similar=10):
 
-        with open('model_NR.sav', 'rb') as pickle_in:
+        with open('model.sav', 'rb') as pickle_in:
             model = pickle.load(pickle_in)
 
         similar, _ = zip(*model.similar_items(item_id, n_similar)[1:])
@@ -48,7 +48,7 @@ class CL2(object):
 
     def model(self):
 
-        sparse_item_user = load_npz("sparse_item_user_NR.npz")
+        sparse_item_user = load_npz("sparse_item_user.npz")
 
         train, test = train_test_split(sparse_item_user, train_percentage=0.8)
 
@@ -56,13 +56,13 @@ class CL2(object):
             regularization=0.1, iterations=20, calculate_training_loss=False)
         model.fit(train)
 
-        with open('model_NR.sav', 'wb') as pickle_out:
+        with open('model.sav', 'wb') as pickle_out:
             pickle.dump(model, pickle_out)
 
     def evaloutput(self,K=10):
-        with open('model_NR.sav', 'rb') as pickle_in:
+        with open('model.sav', 'rb') as pickle_in:
             model = pickle.load(pickle_in)
-        sparse_item_user = load_npz("sparse_user_item_NR.npz")
+        sparse_item_user = load_npz("sparse_user_item.npz")
         train, test = train_test_split(sparse_item_user, train_percentage=0.8)
         #p_at_k = precision_at_k(model, K, train_user_items=train, test_user_items=test)
         print("test",test.shape)
@@ -75,7 +75,7 @@ class CL2(object):
 
     def recalculate_user(self,selectmovie_id,user_ratings):
 
-        m = load_npz('sparse_user_item_NR.npz')
+        m = load_npz('sparse_user_item.npz')
         n_users, n_movies = m.shape
         ratings = user_ratings
         id = selectmovie_id
@@ -88,7 +88,7 @@ class CL2(object):
         m._shape = (n_users + 1, n_movies)
 
         # recommend N items to new user
-        with open('model_NR.sav', 'rb') as pickle_in:
+        with open('model.sav', 'rb') as pickle_in:
             model = pickle.load(pickle_in)
         recommended, _ = zip(*model.recommend(n_users, m, recalculate_user=True))
 

@@ -16,12 +16,12 @@ def make_rec (newmovieId=[2,3],newrating=[4,5]):
     #print('r',args.r)
     result=CL.recalculate_user(newmovieId,newrating)
     #result=CL.recalculate_user([m[0] for m in args.m],[r[0] for r in args.r])
-    print("rec movie",result)
-    #p_at_k, m_at_k = CL.evaloutput(10)
-    #print(p_at_k, m_at_k)
+    print("recmovie",result)
+    p_at_k, m_at_k = CL.evaloutput(10)
+    print(p_at_k, m_at_k)
 
-    similar = CL.most_similar_items(smovieid, n_similar=10)
-    print('similarmovie',similar)
+    #similar = CL.most_similar_items(smovieid, n_similar=10)
+    #print('similarmovie',similar)
     #return result, similar
 
 def similar_movie(smovieid=1):
