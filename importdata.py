@@ -16,7 +16,7 @@ import pickle
 
 
 class collabFilter(object):
-    def __init__(self,host='localhost',db='ratings',dbuser='root',dbpw='7878158'):
+    def __init__(self,host='localhost',db='ratings',dbuser='root',dbpw=''):
         self.host =host
         self.db = db
         self.dbuser = dbuser
